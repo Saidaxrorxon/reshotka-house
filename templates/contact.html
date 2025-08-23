@@ -1,0 +1,370 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Контакты — Reshetki House</title>
+  <meta name="color-scheme" content="light" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    /* ===== Base / Reset ===== */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;line-height:1.5;-webkit-font-smoothing:antialiased;background:var(--bg);color:#f2f2f2;
+      font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif}
+    img,video{max-width:100%;display:block}
+    input,button,textarea,select{font:inherit}
+    a{color:inherit}
+    :root{--text:#111;--muted:#6b7280;--shade:rgba(17,17,17,.08);--radius:16px;--brand:#111;--bg-soft:#fafafa;--bg:#0b0b0b;--panel:#111;--gold:#d4af37;--gold-2:#a97c14}
+    .container{width:min(1200px,92vw);margin-inline:auto}
+
+    /* ===== Header (consistent) ===== */
+    /* ===== Theme: Gold (dark) overrides ===== */
+    .site-header{background:rgba(0,0,0,.6);border-bottom:1px solid rgba(255,255,255,.09)}
+    .menu a{color:#f2f2f2}
+    .btn{border:1px solid var(--gold-2);background:var(--gold);color:#1a1a1a}
+    .btn.outline{background:transparent;color:var(--gold);border-color:var(--gold)}
+    .btn:hover{opacity:.92}
+    /* cards/boxes colors */
+    .info-box{background:#121212}
+    .contacts-list{background:#121212}
+    .form{background:#121212}
+    .site-header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(180%) blur(8px);
+      background:rgba(0,0,0,.6);border-bottom:1px solid var(--shade)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:.9rem 0}
+    .brand{font-weight:700;letter-spacing:.08em}
+    .menu{display:none;gap:1.2rem;font-size:.95rem}
+    .menu a{text-decoration:none;opacity:.9}
+    .menu a:hover{opacity:.6}
+    @media (min-width:900px){.menu{display:flex}}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;border:1px solid #000;background:var(--brand);color:#fff;
+      padding:.8rem 1.2rem;border-radius:999px;cursor:pointer;text-decoration:none;transition:.25s ease}
+    .btn:hover{opacity:.9;transform:translateY(-1px)}
+    .btn.outline{background:#fff;color:#111}
+
+    /* ===== Top contact triplet ===== */
+    .contact-triplet{padding:26px 0 6px}
+    .triplet{display:grid;gap:12px;align-items:stretch}
+    @media(min-width:900px){.triplet{grid-template-columns:repeat(3,1fr)}}
+    .info-box{border:1px solid var(--shade);border-radius:16px;padding:16px;background:#121212}
+    .info-box h3{margin:0 0 6px;font-size:1.05rem}
+    .info-box p{margin:0;color:var(--muted)}
+
+    /* ===== Showroom intro (page hero-like) ===== */
+    .hero_contact{padding:26px 0 6px}
+    .hero_contact h1{margin:0 0 10px;font-size:clamp(1.8rem,3vw + .5rem,2.4rem)}
+    .hero_contact p{margin:0;color:var(--muted);max-width:80ch}
+
+    /* ===== Discuss / Contacts + Form ===== */
+    .discuss{padding:18px 0 26px}
+    .discuss-head{margin-bottom:8px}
+    .discuss h2{margin:0 0 4px;font-size:clamp(1.4rem,1.2vw + 1rem,2rem)}
+    .grid{display:grid;gap:18px;align-items:stretch}
+    @media(min-width:980px){.grid{grid-template-columns:1fr 1fr;align-items:start}}
+
+    .contacts-list{border:1px solid var(--shade);border-radius:16px;background:#121212;padding:14px;display:flex;flex-direction:column;gap:10px;height:460px}
+    .citem{display:grid;gap:4px}
+    .citem .name{font-weight:700}
+    .citem .value{color:#f2f2f2}
+    .citem .hint{color:var(--muted);font-size:.9rem}
+
+    .form{border:1px solid var(--shade);border-radius:16px;background:#121212;padding:16px;display:grid;gap:12px}
+    input,textarea{background:#0f0f0f;color:#f2f2f2;border-color:var(--shade)}
+    input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,175,55,.15);outline:none}
+    .row{display:grid;gap:10px}
+    @media(min-width:640px){.row.two{grid-template-columns:1fr 1fr}}
+    label{font-size:.9rem;font-weight:600}
+    input,textarea{border:1px solid var(--shade);border-radius:12px;padding:.75rem .9rem}
+    input:focus,textarea:focus{border-color:#111;box-shadow:0 0 0 3px rgba(0,0,0,.06);outline:none}
+    .error{color:#b00020;font-size:.82rem;min-height:1.1em}
+    .form .btn{justify-self:start}
+    .form.sending{opacity:.7;pointer-events:none}
+
+    /* ===== Map ===== */
+    .map .box{border:1px solid var(--shade);border-radius:16px;overflow:hidden}
+    .map iframe{width:100%;height:460px;border:0;display:block}
+    @media(max-width:979px){
+      .contacts-list{height:auto}
+      .map iframe{height:320px}
+    }
+
+    /* ===== Footer ===== */
+    .site-footer{padding:36px 0 20px;background:#0b0b0b;border-top:1px solid var(--shade)}
+    .ft{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:.9rem}
+  </style>
+</head>
+<body id="top" class="theme-gold">
+  <!-- Header -->
+ <header class="site-header" id="header">
+    <div class="container nav">
+      <div class="brand">
+        <img src="../assets/logo-reshetki-house.jpeg" alt="Reshetki House" class="brand-logo" />
+        <a href="{% url 'home' %}" class="brand-text">RESHETKI HOUSE</a>
+      </div>
+      <div class="nav-right" style="display: flex; align-items: center; margin-left: auto;">
+        <nav class="menu" aria-label="Главное меню">
+          <a href="{% url 'catalog' %}">Услуги</a>
+          <a href="{% url 'projects' %}">Портфолио</a>
+          <a href="{% url 'contact' %}">Контакты</a>
+        </nav>
+
+        <!-- Header quick actions (visible on mobile like reference site) -->
+      <div class="header-actions">
+          <a class="ha ha--call" href="tel:+998971991661" aria-label="Позвонить"></a>
+          <a class="ha ha--tg-v2" href="https://wa.me/998971991661" target="_blank" rel="noopener" aria-label="Написать в WhatsApp"></a>
+        </div>
+
+
+        <!-- Burger button (opens dropdown under header) -->
+        <button class="burger" type="button" aria-label="Открыть меню" aria-controls="mobileNav" aria-expanded="false">
+          <span class="burger-box">
+            <span class="burger-inner"></span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile dropdown panel -->
+  <nav id="mobileNav" class="mobile-nav" aria-label="Мобильное меню">
+    <div class="mobile-nav__inner container">
+      <ul class="mobile-nav__list">
+        <li><a href="/pages/catalog.html">Услуги</a></li>
+        <li><a href="/pages/projects.html">Портфолио</a></li>
+        <li><a href="/pages/contact.html">Контакты</a></li>
+
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Top contact triplet (как на референсе) -->
+  <section class="contact-triplet">
+    <div class="container triplet">
+      <article class="info-box">
+        <h3>+998(97)199-16-61</h3>
+        <p>Звоните с 09:00 до 19:00 — проконсультируем.</p>
+      </article>
+      <article class="info-box">
+        <h3>info@reshetkihouse.uz</h3>
+        <p>E‑mail для заявок и сотрудничества</p>
+      </article>
+      <article class="info-box">
+        <h3>Ташкент, Узбекистан</h3>
+        <p>Производство и монтаж по городу и области</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Showroom intro -->
+  <section class="hero_contact">
+    <div class="container">
+      <h1>Контакты Reshetki House</h1>
+      <p>Свяжитесь с нами по вопросам изготовления кованых решёток, ворот, навесов и перил. Поможем с замером, подбором дизайна и расчётом стоимости. Работаем под ключ.</p>
+    </div>
+  </section>
+
+  <!-- Discuss + Contacts list + Form -->
+  <section class="discuss" aria-labelledby="discuss-title">
+    <div class="container">
+      <header class="discuss-head">
+        <h2 id="discuss-title">Давайте обсудим ваш проект</h2>
+      </header>
+      <div class="grid">
+        <!-- left column: form placeholder -->
+<div class="contacts-list" aria-label="Контакты">
+            <div class="citem">
+              <div class="name">Адрес</div>
+              <div class="value">Ташкент, Узбекистан</div>
+            </div>
+            <div class="citem">
+              <div class="name">Телефон</div>
+              <div class="value">+998(97)199-16-61</div>
+            </div>
+            <div class="citem">
+              <div class="name">Время работы</div>
+              <div class="value">09:00–19:00</div>
+            </div>
+            <div class="citem">
+              <div class="name">E‑mail</div>
+              <div class="value">info@reshetkihouse.uz</div>
+            </div>
+            <div class="citem">
+              <div class="name">Telegram</div>
+              <div class="value">@reshetkihouse</div>
+            </div>
+          </div>
+        <!-- right column: contacts list + map -->
+        
+          
+          <div class="map" aria-label="Карта">
+            <div class="box">
+              <iframe src="https://yandex.com/map-widget/v1/?ll=69.3011166%2C41.3252632&z=16&pt=69.3011166,41.3252632,pm2rdl" allowfullscreen title="Мы на карте"></iframe>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer" aria-labelledby="footer-title">
+  <div class="container footer-grid">
+    <div>
+      <div id="footer-title" class="ft-title">О нас</div>
+      <p class="ft-text">«Reshetki House» — производство кованых решёток, ворот, навесов и перил. Работаем по Ташкенту и области. Премиальное качество и монтаж под ключ.</p>
+    </div>
+
+    <nav class="ft-col" aria-label="Что мы делаем">
+      <div class="ft-title">Что мы делаем</div>
+      <ul class="ft-list">
+        <li><a href="#">Кухни на заказ</a></li>
+        <li><a href="#">Гардеробные</a></li>
+        <li><a href="#">Скрытые двери</a></li>
+        <li><a href="#">Комплектующие</a></li>
+      </ul>
+    </nav>
+
+    <nav class="ft-col" aria-label="Полезные ссылки">
+      <div class="ft-title">Полезные ссылки</div>
+      <ul class="ft-list">
+        <li><a href="{% url 'catalog' %}">Услуги</a></li>
+        <li><a href="/pages/projects.html">Портфолио</a></li>
+        <li><a href="/pages/contact.html">Контакты</a></li>
+      </ul>
+    </nav>
+
+    <div class="ft-col">
+      <div class="ft-title">Контакты</div>
+      <ul class="ft-list">
+        <li>Тел: +998 (97) 199-16-61</li>
+        <li>Email: info@reshetkihouse.uz</li>
+        <li>Адрес: Ташкент, Узбекистан</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container ft-bottom">
+    <span>© 2025 Reshetki House. Все права защищены.</span>
+  </div>
+</footer>
+
+  <script>
+ document.addEventListener('DOMContentLoaded', function() {
+      const menu = document.getElementById('mobileNav');
+      const burger = document.querySelector('.burger');
+      if (!menu || !burger) return;
+      let isOpen = false;
+      function openMenu(){
+        if(isOpen) return; isOpen = true;
+        menu.style.display='block';
+        const target = menu.scrollHeight;
+        menu.style.height='0px';
+        menu.style.transition='height 0.28s ease';
+        requestAnimationFrame(()=>{ menu.style.height = target + 'px'; });
+        burger.setAttribute('aria-expanded','true');
+        document.body.classList.add('menu-open');
+      }
+      function closeMenu(){
+        if(!isOpen) return; isOpen=false;
+        const current = menu.scrollHeight;
+        menu.style.height = current + 'px';
+        menu.style.overflow = 'hidden';
+        menu.style.transition = 'height 0.28s ease';
+        requestAnimationFrame(()=>{ menu.style.height = '0px'; });
+        const onEnd = (e)=>{
+          if(e.propertyName !== 'height') return;
+          menu.removeEventListener('transitionend', onEnd);
+          menu.style.display='none'; menu.style.height=''; menu.style.transition=''; menu.style.overflow='';
+        };
+        menu.addEventListener('transitionend', onEnd);
+        setTimeout(()=>{ if(!isOpen){ menu.style.display='none'; menu.style.height=''; menu.style.transition=''; menu.style.overflow=''; } }, 320);
+        burger.setAttribute('aria-expanded','false');
+        document.body.classList.remove('menu-open');
+      }
+      function toggleMenu(){ isOpen ? closeMenu() : openMenu(); }
+      burger.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); toggleMenu(); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape' && isOpen) closeMenu(); });
+      menu.addEventListener('click', function(e){ if(e.target.tagName==='A' && isOpen) closeMenu(); });
+      const mq = window.matchMedia('(min-width: 900px)');
+      mq.addEventListener('change', function(e){ if(e.matches && isOpen) closeMenu(); });
+      burger.setAttribute('aria-expanded','false');
+      menu.style.display='none';
+    });
+
+
+    // Sticky header bg
+    (function(){
+      const header = document.querySelector('.site-header');
+      const onScroll = ()=> header.style.background = window.scrollY>4 ? 'rgba(0,0,0,.72)' : 'rgba(0,0,0,.6)';
+      onScroll();
+      window.addEventListener('scroll', onScroll, {passive:true});
+    })();
+
+    // Phone mask for UZ +998
+    (function phoneMask(){
+      const input = document.getElementById('phone');
+      if(!input) return;
+      const digits = () => input.value.replace(/\D/g,'').slice(0,12);
+      function format(){
+        let d = digits();
+        if(d.startsWith('998')) d = d; else if(d.startsWith('8')) d = '998' + d.slice(1);
+        else if(d.length && !d.startsWith('998')) d = '998' + d;
+        const body = d.slice(3);
+        const p = [body.slice(0,2), body.slice(2,5), body.slice(5,7), body.slice(7,9)];
+        input.value = `+998 (${p[0]||'__'}) ${p[1]||'___'}-${p[2]||'__'}-${p[3]||'__'}`;
+      }
+      input.addEventListener('input', format);
+      input.addEventListener('focus', ()=>{ if(!input.value) input.value = '+998 (__) ___-__-__'; });
+      input.addEventListener('blur', ()=>{ const n = input.value.replace(/\D/g,'').length; if(n < 12) input.value = ''; });
+    })();
+
+    // Form validation + demo submit
+    (function formInit(){
+      const form = document.getElementById('contactForm');
+      if(!form) return;
+      const name = form.querySelector('#name');
+      const phone = form.querySelector('#phone');
+      const email = form.querySelector('#email');
+      const agree = form.querySelector('#agree');
+      const note = document.getElementById('formNote');
+
+      function setError(el, msg){
+        const err = el.closest('div')?.querySelector('.error') || form.querySelector('.error:last-of-type');
+        if(err) err.textContent = msg || '';
+        el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      }
+
+      function validate(){
+        let ok = true;
+        if(!name.value.trim()){ setError(name,'Укажите имя'); ok = false; } else setError(name,'');
+        const d = phone.value.replace(/\D/g,'');
+        if(d.length !== 12 || !d.startsWith('998')){ setError(phone,'Введите телефон в формате +998 (90) 123-45-67'); ok = false; } else setError(phone,'');
+        if(email.value && !/^\S+@\S+\.\S+$/.test(email.value)){ setError(email,'Некорректный email'); ok = false; } else setError(email,'');
+        if(!agree.checked){ const err = form.querySelectorAll('.error')[form.querySelectorAll('.error').length-1]; if(err) err.textContent='Нужно согласие на обработку данных'; ok=false; } else { const err = form.querySelectorAll('.error')[form.querySelectorAll('.error').length-1]; if(err) err.textContent=''; }
+        return ok;
+      }
+
+      form.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        note.textContent = '';
+        if(!validate()) return;
+        form.classList.add('sending');
+        note.textContent = 'Отправляем…';
+        try{
+          await new Promise(r=> setTimeout(r, 800)); // сюда добавишь реальный fetch
+          note.textContent = 'Спасибо! Мы свяжемся с вами в ближайшее время.';
+          form.reset();
+        }catch(err){
+          note.textContent = 'Ошибка отправки. Попробуйте позже.';
+        }finally{
+          form.classList.remove('sending');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

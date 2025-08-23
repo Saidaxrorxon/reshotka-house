@@ -1,0 +1,329 @@
+
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Каталог — Reshetki House</title>
+  <meta name="color-scheme" content="light" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/main.css">
+  <link rel="stylesheet" href="../static/css/catalog.css">
+</head>
+<body id="top" class="theme-gold">
+  <!-- ===== Header ===== -->
+    <header class="site-header" id="header">
+    <div class="container nav">
+      <div class="brand">
+        <img src="../static/assets/logo-reshetki-house.jpeg" alt="Reshetki House" class="brand-logo" />
+        <a href="{% url 'home' %}" class="brand-text">RESHETKI HOUSE</span>
+      </div>
+      <div class="nav-right" style="display: flex; align-items: center; margin-left: auto;">
+        <nav class="menu" aria-label="Главное меню">
+          <a href="{% url 'catalog' %}">Услуги</a>
+          <a href="{% url 'projects' %}">Портфолио</a>
+          <a href="{% url 'contact' %}">Контакты</a>
+        </nav>
+
+        <!-- Header quick actions (visible on mobile like reference site) -->
+        <div class="header-actions">
+          <a class="ha ha--call" href="tel:+998971991661" aria-label="Позвонить"></a>
+          <a class="ha ha--tg-v2" href="https://wa.me/998971991661" target="_blank" rel="noopener" aria-label="Написать в WhatsApp"></a>
+        </div>
+
+
+        <!-- Burger button (opens dropdown under header) -->
+        <button class="burger" type="button" aria-label="Открыть меню" aria-controls="mobileNav" aria-expanded="false">
+          <span class="burger-box">
+            <span class="burger-inner"></span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile dropdown panel -->
+  <nav id="mobileNav" class="mobile-nav" aria-label="Мобильное меню">
+    <div class="mobile-nav__inner container">
+      <ul class="mobile-nav__list">
+        <li><a href="/pages/catalog.html">Услуги</a></li>
+        <li><a href="/pages/projects.html">Портфолио</a></li>
+        <li><a href="/pages/contact.html">Контакты</a></li>
+
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== Catalog Intro (category tiles) ===== -->
+  
+
+  <!-- ===== Catalog Controls + Grid ===== -->
+  <section class="catalog" aria-labelledby="catalog-title">
+    <div class="container">
+      <header class="catalog-head">
+        <h2 id="catalog-title">Каталог</h2>
+        <div class="catalog-actions">
+          <input type="search" id="catalogSearch" placeholder="Поиск по названию…" aria-label="Поиск по каталогу" />
+         
+        </div>
+      </header>
+
+      <div class="catalog-layout">
+        <!-- Filters -->
+        <aside class="filters" aria-label="Фильтры каталога">
+          <div class="filter-block">
+            <div class="filter-title">Категория</div>
+            <div class="chips" id="catChips" role="tablist" aria-label="Фильтр по категории">
+              <button class="chip active" data-cat="all" role="tab" aria-selected="true">Все</button>
+                 <button class="chip" data-cat="grilles" role="tab" aria-selected="false">Решётки</button>
+                 <button class="chip" data-cat="gates" role="tab" aria-selected="false">Ворота</button>
+                 <button class="chip" data-cat="canopies" role="tab" aria-selected="false">Навесы</button>
+                 <button class="chip" data-cat="railings" role="tab" aria-selected="false">Перила</button>
+            </div>
+          </div>
+          <div class="filter-block">
+            <div class="filter-title">Диапазон цены</div>
+            <div class="range">
+              <input type="number" id="priceMin" value="0" min="0" step="100" aria-label="Мин. цена" />
+              <span class="dash">—</span>
+              <input type="number" id="priceMax" value="10000" min="0" step="100" aria-label="Макс. цена" />
+            </div>
+            <button class="btn small outline" id="applyPrice" type="button">Применить</button>
+          </div>
+        </aside>
+
+        <!-- Grid -->
+        <div class="catalog-grid" id="catalogGrid" aria-live="polite">
+          <!-- Demo products (replace with real data/images) -->
+           {% for card in catalog_card %} 
+          {% comment %} <article class="prod" tabindex="0" data-cat="grilles" data-price="450" data-name="Window Classic" data-pop="1"> {% endcomment %}
+
+                 
+                          <article class="prod" tabindex="0" data-cat="{{ card.category }}" data-price="{{ card.price }}" data-name="Gate Barocco" data-pop="2">
+                              <div class="thumb">
+                                  <img src="{{ card.image.url }}" alt="" loading="lazy" />
+                                  <span class="badge">Хит</span>
+                              </div>
+                              <h3>{{ card.get_category_display }} </h3>
+                              <div class="meta">
+                                  <span class="price">от {{ card.price }} $</span>
+                                  <button class="mini-btn" type="button">Подробнее</button>
+                              </div>
+            </article>
+                  {% endfor %}
+        </div>
+      </div>
+
+      <!-- Pagination (demo) -->
+      <div class="catalog-more">
+        <button class="btn outline" id="loadMore" type="button">Показать ещё</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer (simple) ===== -->
+  <footer class="site-footer" aria-labelledby="footer-title">
+  <div class="container footer-grid">
+    <div>
+      <div id="footer-title" class="ft-title">О нас</div>
+      <p class="ft-text">«Reshetki House» — производство кованых решёток, ворот, навесов и перил. Работаем по Ташкенту и области. Премиальное качество и монтаж под ключ.</p>
+    </div>
+
+    <nav class="ft-col" aria-label="Что мы делаем">
+      <div class="ft-title">Что мы делаем</div>
+      <ul class="ft-list">
+        <li><a href="#">Кухни на заказ</a></li>
+        <li><a href="#">Гардеробные</a></li>
+        <li><a href="#">Скрытые двери</a></li>
+        <li><a href="#">Комплектующие</a></li>
+      </ul>
+    </nav>
+
+    <nav class="ft-col" aria-label="Полезные ссылки">
+      <div class="ft-title">Полезные ссылки</div>
+      <ul class="ft-list">
+        <li><a href="/static/pages/catalog.html">Услуги</a></li>
+        <li><a href="/static/pages/projects.html">Портфолио</a></li>
+        <li><a href="/static/pages/contact.html">Контакты</a></li>
+
+      </ul>
+    </nav>
+
+    <div class="ft-col">
+      <div class="ft-title">Контакты</div>
+      <ul class="ft-list">
+        <li>Тел: +998 (97) 199-16-61</li>
+        <li>Email: info@reshetkihouse.uz</li>
+        <li>Адрес: Ташкент, Узбекистан</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container ft-bottom">
+    <span>© 2025 Reshetki House. Все права защищены.</span>
+  </div>
+</footer>
+
+  <script>
+    // Sticky header (adds .scrolled class)
+    (function(){
+      const header = document.getElementById('header');
+      const onScroll = ()=> header.classList.toggle('scrolled', window.scrollY > 4);
+      onScroll();
+      window.addEventListener('scroll', onScroll, {passive:true});
+    })();
+
+    // Reveal observer
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); }
+      })
+    }, {threshold:0.08});
+
+    // Hook products for reveal
+    document.querySelectorAll('#catalogGrid .prod').forEach(el=> io.observe(el));
+
+    // Intro tiles -> set category filter and scroll to grid
+    (function introTiles(){
+      const wrap = document.getElementById('introCats');
+      if(!wrap) return;
+      wrap.addEventListener('click', (e)=>{
+        const btn = e.target.closest('.tile');
+        if(!btn) return;
+        const cat = btn.dataset.cat || 'all';
+        setCategory(cat);
+        document.getElementById('catalog-title')?.scrollIntoView({behavior:'smooth'});
+      });
+    })();
+
+    // Catalog logic (search/sort/filter/pagination)
+    (function catalogLogic(){
+      const grid = document.getElementById('catalogGrid');
+      if(!grid) return;
+      const items = Array.from(grid.querySelectorAll('.prod'));
+      const search = document.getElementById('catalogSearch');
+      const sortSel = document.getElementById('catalogSort');
+      const chipsWrap = document.getElementById('catChips');
+      const priceMin = document.getElementById('priceMin');
+      const priceMax = document.getElementById('priceMax');
+      const applyPrice = document.getElementById('applyPrice');
+      const loadMore = document.getElementById('loadMore');
+
+      const state = { cat:'all', q:'', pmin:0, pmax:1e9, sort:'pop', shown:9 };
+
+      function normalizeName(s){ return (s||'').toString().toLowerCase().trim(); }
+
+      function applyFilters(){
+        const q = normalizeName(state.q);
+        const filtered = items.filter(it=>{
+          const catOk = state.cat==='all' || it.dataset.cat===state.cat;
+          const price = Number(it.dataset.price||0);
+          const priceOk = price>=state.pmin && price<=state.pmax;
+          const nameOk = normalizeName(it.dataset.name).includes(q);
+          return catOk && priceOk && nameOk;
+        });
+        const sorted = filtered.sort((a,b)=>{
+          if(state.sort==='price_asc') return (a.dataset.price|0)-(b.dataset.price|0);
+          if(state.sort==='price_desc') return (b.dataset.price|0)-(a.dataset.price|0);
+          if(state.sort==='name_asc') return a.dataset.name.localeCompare(b.dataset.name,'ru');
+          return (a.dataset.pop|0)-(b.dataset.pop|0);
+        });
+        items.forEach(it=> it.style.display='none');
+        sorted.slice(0,state.shown).forEach(it=> it.style.display='');
+        if(loadMore){
+          loadMore.style.display = sorted.length>state.shown ? '' : 'none';
+          loadMore.onclick = ()=>{ state.shown += 9; applyFilters(); };
+        }
+      }
+
+      // expose category setter for intro tiles
+      window.setCategory = function(cat){
+        state.cat = cat || 'all';
+        if(chipsWrap){
+          chipsWrap.querySelectorAll('.chip').forEach(c=>{
+            const active = (c.dataset.cat||'all')===state.cat;
+            c.classList.toggle('active', active);
+            c.setAttribute('aria-selected', active? 'true':'false');
+          });
+        }
+        applyFilters();
+      }
+
+      // Listeners
+      if(chipsWrap){
+        chipsWrap.addEventListener('click', (e)=>{
+          const btn = e.target.closest('.chip');
+          if(!btn) return;
+          state.cat = btn.dataset.cat || 'all';
+          chipsWrap.querySelectorAll('.chip').forEach(c=>{c.classList.remove('active'); c.setAttribute('aria-selected','false');});
+          btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+          applyFilters();
+        });
+      }
+      if(search){ search.addEventListener('input', ()=>{ state.q = search.value; applyFilters(); }); }
+      if(sortSel){ sortSel.addEventListener('change', ()=>{ state.sort = sortSel.value; applyFilters(); }); }
+      if(applyPrice){ applyPrice.addEventListener('click', ()=>{
+        state.pmin = Number(priceMin.value||0); state.pmax = Number(priceMax.value||1e9); applyFilters();
+      }); }
+
+      // First render
+      applyFilters();
+
+      // If opened with hash like #kitchen -> preselect
+      if(location.hash){
+        const cat = location.hash.replace('#','');
+const known = ['all','grilles','gates','canopies','railings'];
+        if(known.includes(cat)) setCategory(cat);
+      }
+    })();
+
+
+    // ====== Mobile burger menu (dropdown under header)
+    document.addEventListener('DOMContentLoaded', function() {
+      const menu = document.getElementById('mobileNav');
+      const burger = document.querySelector('.burger');
+      if (!menu || !burger) return;
+      let isOpen = false;
+      function openMenu(){
+        if(isOpen) return; isOpen = true;
+        menu.style.display='block';
+        const target = menu.scrollHeight;
+        menu.style.height='0px';
+        menu.style.transition='height 0.28s ease';
+        requestAnimationFrame(()=>{ menu.style.height = target + 'px'; });
+        burger.setAttribute('aria-expanded','true');
+        document.body.classList.add('menu-open');
+      }
+      function closeMenu(){
+        if(!isOpen) return; isOpen=false;
+        const current = menu.scrollHeight;
+        menu.style.height = current + 'px';
+        menu.style.overflow = 'hidden';
+        menu.style.transition = 'height 0.28s ease';
+        requestAnimationFrame(()=>{ menu.style.height = '0px'; });
+        const onEnd = (e)=>{
+          if(e.propertyName !== 'height') return;
+          menu.removeEventListener('transitionend', onEnd);
+          menu.style.display='none'; menu.style.height=''; menu.style.transition=''; menu.style.overflow='';
+        };
+        menu.addEventListener('transitionend', onEnd);
+        setTimeout(()=>{ if(!isOpen){ menu.style.display='none'; menu.style.height=''; menu.style.transition=''; menu.style.overflow=''; } }, 320);
+        burger.setAttribute('aria-expanded','false');
+        document.body.classList.remove('menu-open');
+      }
+      function toggleMenu(){ isOpen ? closeMenu() : openMenu(); }
+      burger.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); toggleMenu(); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape' && isOpen) closeMenu(); });
+      menu.addEventListener('click', function(e){ if(e.target.tagName==='A' && isOpen) closeMenu(); });
+      const mq = window.matchMedia('(min-width: 900px)');
+      mq.addEventListener('change', function(e){ if(e.matches && isOpen) closeMenu(); });
+      burger.setAttribute('aria-expanded','false');
+      menu.style.display='none';
+    });
+  </script>
+</body>
+</html>
+    

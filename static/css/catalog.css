@@ -1,0 +1,141 @@
+/* Кнопки категорий сверху */
+.intro-cats .tile {
+  border: none;
+  background: var(--gold);
+  color: #111;
+  font-weight: 500;
+  border-radius: 999px;
+  padding: .6rem 1rem;
+  cursor: pointer;
+  transition: background .25s ease;
+  margin-bottom: 10px;
+}
+.intro-cats .tile:hover {
+  background: var(--gold-2);
+}
+
+/* Фильтры категорий (chips) */
+.filters .chips .chip,
+.chips .chip {
+  background: transparent !important;
+  border: 1px solid var(--gold) !important;
+  color: var(--gold) !important;
+  font-weight: 500;
+  border-radius: 999px;
+  padding: .42rem .9rem;
+  transition: all .25s ease;
+}
+.filters .chips .chip.active,
+.chips .chip.active {
+  background: var(--gold) !important;
+  color: #111 !important;
+}
+.filters .chips .chip:hover,
+.chips .chip:hover {
+  background: var(--gold) !important;
+  color: #111 !important;
+}
+
+/* Заголовок и поиск в каталоге */
+.catalog { padding-top: 8px; background: #111 !important; }
+.catalog-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 16px; }
+#catalogSearch { min-width: 280px; border: 1px solid var(--shade); border-radius: 999px; padding: .7rem 1rem; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+#catalogSearch::placeholder { color: #8a8a8a; }
+
+/* Карточки и сетка — больше воздуха */
+.catalog-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: start;
+}
+.thumb {
+  aspect-ratio: 16/10;
+  flex-shrink: 0;
+}
+.badge { font-size: .78rem; line-height: 1; }
+
+/* Левая колонка фильтров как карточка */
+.filters { background: #fff; border-radius: var(--radius); padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.filter-title { font-weight: 600; margin-bottom: .5rem; color: #111; }
+.btn.small.outline { border-color: var(--gold); color: var(--gold); }
+.btn.small.outline:hover { background: var(--gold); color: #111; }
+
+/* Карточки товаров */
+.prod {
+    max-width: 341px;
+    min-height: 333px;
+  border: none;
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.prod:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.12);
+}
+.prod h3 {
+  margin: 12px;
+  font-size: 1rem;
+  color: #111;
+}
+.prod .price{
+
+  color: #111;
+}
+.prod .meta {
+  margin-top: auto;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Кнопка "Подробнее" */
+.mini-btn {
+  background: var(--gold);
+  border: none;
+  color: #111;
+  font-weight: 500;
+  border-radius: 999px;
+  padding: .45rem .9rem;
+  transition: background .25s ease;
+}
+.mini-btn:hover {
+  background: var(--gold-2);
+}
+
+/* Бейджи */
+.badge {
+  background: var(--gold);
+  color: #111;
+  border-radius: 999px;
+  padding: .25rem .6rem;
+  font-weight: 500;
+}
+
+/* Блок фильтров */
+.filters {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+.filter-title {
+  font-weight: 600;
+  margin-bottom: .5rem;
+  color: #111;
+}
+.btn.small.outline {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.btn.small.outline:hover {
+  background: var(--gold);
+  color: #111;
+}
