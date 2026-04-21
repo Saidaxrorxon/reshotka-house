@@ -1,19 +1,18 @@
-// Слайды (замени картинки/тексты при необходимости)
 const slidesData = [
   {
-    title: "Inferno",
-    text: "Погрузитесь в атмосферу современного модерна с кухней Inferно — сочетание стиля и технологий в каждой детали!",
-    image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1920&auto=format&fit=crop"
+    title: "Навесы на заказ",
+    text: "Изготавливаем прочные и стильные навесы в Ташкенте — для дома, двора, парковки и коммерческих объектов.",
+    image: "https://news-bash.ru/wp-content/uploads/2025/11/post_11_11_2025_05_17_43_216.jpg"
   },
   {
-    title: "Destiny",
-    text: "Откройте дверь в свой мир с кухней Destiny — современный стиль и неповторимая элегантность!",
-    image: "https://images.unsplash.com/photo-1620799139507-1ff5b51c0702?q=80&w=1920&auto=format&fit=crop"
+    title: "Ворота и калитки",
+    text: "Надёжные металлические ворота и калитки под заказ — современный дизайн, качественная сварка и установка под ключ.",
+    image: "https://dpoprof.ru/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2025/05/rezka-metalla-s-plazmennym-oborudovaniem-na-zavode-1024x683.jpg.webp"
   },
   {
-    title: "Glass All",
-    text: "Создайте уникальное пространство с дизайнерскими гардеробными Glass All от Dall’Agnese.",
-    image: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?q=80&w=1920&auto=format&fit=crop"
+    title: "Решётки и ограждения",
+    text: "Производим металлические решётки, заборы и ограждения любой сложности для частных домов, офисов и предприятий в Ташкенте.",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4feEWtDFWxGRIYPcj6NA7wjM0XyZeY-fuRQ&s"
   }
 ];
 
