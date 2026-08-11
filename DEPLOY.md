@@ -8,8 +8,8 @@ Run the steps below **on the server** unless noted otherwise. `<APP_DIR>` is
 wherever you clone the repo, e.g. `/home/deploy/reshotka-house`.
 
 ## 0. Before you start
-- Point the domain's DNS **A record** (`reshetkihouse.uz` and
-  `www.reshetkihouse.uz`) at the server's public IP. DNS propagation can
+- Point the domain's DNS **A record** (`reshetki-house.uz` and
+  `www.reshetki-house.uz`) at the server's public IP. DNS propagation can
   take a while, so do this first.
 - Have SSH access to the server as a non-root user with `sudo`.
 
@@ -79,12 +79,12 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-At this point `http://reshetkihouse.uz` should load the site.
+At this point `http://reshetki-house.uz` should load the site.
 
 ## 8. HTTPS
 
 ```bash
-sudo certbot --nginx -d reshetkihouse.uz -d www.reshetkihouse.uz
+sudo certbot --nginx -d reshetki-house.uz -d www.reshetki-house.uz
 ```
 
 Certbot edits the Nginx config to add the HTTPS server block and redirect
