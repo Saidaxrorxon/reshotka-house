@@ -257,6 +257,22 @@ class ContactViewTests(TestCase):
         self.assertTemplateUsed(response, "contact.html")
 
 
+class SeoViewTests(TestCase):
+    def test_robots_txt_returns_200_and_references_sitemap(self):
+        response = self.client.get(reverse("robots_txt"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "text/plain")
+        self.assertIn(b"Sitemap: ", response.content)
+        self.assertIn(b"/sitemap.xml", response.content)
+
+    def test_sitemap_xml_returns_200_and_lists_all_pages(self):
+        response = self.client.get(reverse("sitemap_xml"))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "application/xml")
+        for name in ("home", "catalog", "projects", "contact"):
+            self.assertIn(reverse(name).encode(), response.content)
+
+
 class UrlResolutionTests(TestCase):
     def test_home_resolves_to_home_view(self):
         self.assertIs(resolve(reverse("home")).func, views.home)
@@ -269,6 +285,12 @@ class UrlResolutionTests(TestCase):
 
     def test_projects_resolves_to_projects_view(self):
         self.assertIs(resolve(reverse("projects")).func, views.projects)
+
+    def test_robots_txt_resolves_to_robots_txt_view(self):
+        self.assertIs(resolve(reverse("robots_txt")).func, views.robots_txt)
+
+    def test_sitemap_xml_resolves_to_sitemap_xml_view(self):
+        self.assertIs(resolve(reverse("sitemap_xml")).func, views.sitemap_xml)
 
 
 class AdminSiteTests(MediaRootTestCase):
