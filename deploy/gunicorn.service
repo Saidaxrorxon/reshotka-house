@@ -1,0 +1,24 @@
+# systemd unit template for running the site with Gunicorn.
+#
+# Copy to /etc/systemd/system/reshotka-house.service on the server, then
+# replace every <PLACEHOLDER> and run:
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now reshotka-house
+
+[Unit]
+Description=Gunicorn daemon for Reshetki House (Django)
+After=network.target
+
+[Service]
+User=<DEPLOY_USER>
+Group=www-data
+WorkingDirectory=<APP_DIR>
+EnvironmentFile=<APP_DIR>/.env
+ExecStart=<APP_DIR>/.venv/bin/gunicorn \
+    --workers 3 \
+    --bind unix:<APP_DIR>/gunicorn.sock \
+    config.wsgi:application
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

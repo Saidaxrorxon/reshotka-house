@@ -22,6 +22,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,12 +33,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6)vr=pl!7+0#!%1jf-j@fwo(j)f*rbu#!^(2@k&jfzcew7c=6a'
+# Set via the SECRET_KEY env var in production - the fallback below is for
+# local development only and must never be reused as a real secret.
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-6)vr=pl!7+0#!%1jf-j@fwo(j)f*rbu#!^(2@k&jfzcew7c=6a",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = [ "reshetkihouse.uz", "www.reshetkihouse.uz" ]
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get(
+        "ALLOWED_HOSTS", "reshetki-house.uz,www.reshetki-house.uz"
+    ).split(",")
+    if host.strip()
+]
 
 
 # Application definition
@@ -129,6 +141,26 @@ STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Media files (user uploads: portfolio/works/catalog_cards images)
+# MEDIA_ROOT is BASE_DIR (not a media/ subfolder) so existing uploads under
+# portfolio/, works/, catalog_cards/ keep resolving without being moved.
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR
+
+# Trust the X-Forwarded-Proto header set by the Nginx reverse proxy (see
+# deploy/nginx.conf) so Django knows requests arriving via the proxy are
+# HTTPS - required for CSRF/session cookies to work once *_COOKIE_SECURE
+# is on below. The HTTP -> HTTPS redirect itself is handled by Nginx/certbot.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
