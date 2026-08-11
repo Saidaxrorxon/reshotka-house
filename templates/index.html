@@ -203,8 +203,8 @@
       <div class="ft-title">Полезные ссылки</div>
       <ul class="ft-list">
         <li><a href="#">О нас</a></li>
-        <li><a href="/static/pages/projects.html">Портфолио</a></li>
-        <li><a href="/static/pages/contact.html">Контакты</a></li>
+        <li><a href="{% url 'projects' %}">Портфолио</a></li>
+        <li><a href="{% url 'contact' %}">Контакты</a></li>
       </ul>
     </nav>
 
@@ -212,9 +212,9 @@
       <div class="ft-title">Контакты</div>
       <ul class="ft-list">
 
-        <li><a href="/static/pages/catalog.html">Услуги</a></li>
-        <li><a href="/static/pages/projects.html">Портфолио</a></li>
-        <li><a href="/static/pages/contact.html">Контакты</a></li>
+        <li><a href="{% url 'catalog' %}">Услуги</a></li>
+        <li><a href="{% url 'projects' %}">Портфолио</a></li>
+        <li><a href="{% url 'contact' %}">Контакты</a></li>
 
       </ul>
     </div>
