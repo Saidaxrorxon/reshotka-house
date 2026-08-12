@@ -5,6 +5,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Reshetki House — кованые решётки, ворота, навесы и перила</title>
+  <meta name="description" content="Reshetki House — производство и монтаж кованых решёток, ворот, навесов и перил в Ташкенте. Бесплатный замер, расчёт стоимости и монтаж под ключ." />
+
+  <link rel="icon" href="/static/assets/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/static/assets/apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Reshetki House" />
+  <meta property="og:title" content="Reshetki House — кованые решётки, ворота, навесы и перила" />
+  <meta property="og:description" content="Производство и монтаж кованых решёток, ворот, навесов и перил в Ташкенте. Бесплатный замер и расчёт стоимости." />
+  <meta property="og:url" content="https://reshetki-house.uz/" />
+  <meta property="og:image" content="https://reshetki-house.uz/static/assets/logo-reshetki-house.jpeg" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,6 +24,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/static/css/main.css" />
+  <style>
+    .reviews { padding: 60px 0; }
+    .reviews h2 { margin: 0 0 8px; }
+    .reviews > .container > p.lead { color: var(--muted); margin: 0 0 28px; max-width: 60ch; }
+    .reviews-grid { display: grid; gap: 16px; grid-template-columns: 1fr; margin-bottom: 32px; }
+    @media (min-width: 720px) { .reviews-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .reviews-grid { grid-template-columns: repeat(3, 1fr); } }
+    .review-card { background: var(--panel); border: 1px solid var(--shade); border-radius: var(--radius); padding: 20px; }
+    .review-card .stars { color: var(--gold); letter-spacing: 2px; }
+    .review-card .review-text { margin: 10px 0 0; }
+    .review-card .review-name { font-weight: 600; margin-top: 14px; }
+    .reviews-empty { color: var(--muted); }
+    .review-form { max-width: 560px; background: var(--panel); border: 1px solid var(--shade); border-radius: var(--radius); padding: 24px; }
+    .review-form .field { margin-bottom: 16px; display: grid; gap: 6px; }
+    .review-form label { font-size: .9rem; }
+    .review-form input, .review-form select, .review-form textarea {
+      padding: .7rem .9rem; border-radius: 10px; border: 1px solid var(--shade);
+      background: transparent; color: var(--text); font: inherit;
+    }
+    .review-form .error { color: #e05d5d; }
+  </style>
 </head>
 <body class="theme-gold">
   <!-- Хедер -->
@@ -146,41 +179,100 @@
           
               <form action="" method="post" class="cta-form" id="ctaForm" novalidate>
             {% csrf_token %}
-            
+
+            {% if form.errors %}
+            <div class="form-note" role="status" aria-live="polite">Пожалуйста, заполните обязательные поля.</div>
+            {% endif %}
+
             <div class="field">
               <label for="name">Ваше имя*</label>
-              <input id="name" name="name" type="text" autocomplete="name" required />
-              <small class="error" aria-live="polite"></small>
+              <input id="name" name="name" type="text" autocomplete="name" value="{{ form.name.value|default_if_none:'' }}" required />
+              <small class="error" aria-live="polite">{{ form.name.errors.0 }}</small>
             </div>
-          
+
             <div class="field">
               <label for="phone">Телефон*</label>
-              <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="+998 (__) ___-__-__" required />
+              <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="+998 (__) ___-__-__" value="{{ form.phone.value|default_if_none:'' }}" required />
               <small class="hint">Формат: +998 (90) 123-45-67</small>
-              <small class="error" aria-live="polite"></small>
+              <small class="error" aria-live="polite">{{ form.phone.errors.0 }}</small>
             </div>
-          
+
             <div class="field">
               <label for="msg">Комментарий (необязательно)</label>
-              <textarea id="msg" name="message" rows="3" placeholder="Кратко опишите задачу"></textarea>
+              <textarea id="msg" name="message" rows="3" placeholder="Кратко опишите задачу">{{ form.message.value|default_if_none:'' }}</textarea>
             </div>
-          
+
             <label class="check">
               <input type="checkbox" id="agree" name="agree" required />
               <span>Я согласен(на) с обработкой персональных данных</span>
             </label>
             <small class="error" aria-live="polite"></small>
-          
+
             <button class="btn" type="submit" aria-label="Отправить заявку">Отправить</button>
-            <div class="form-note" role="status" aria-live="polite"></div>
           </form>
 
 
   </div>
 </section>
 
+<!-- Reviews -->
+<section class="reviews" id="reviews" aria-labelledby="reviews-title">
+  <div class="container">
+    <h2 id="reviews-title">Отзывы наших клиентов</h2>
+    <p class="lead">Что говорят те, кто уже заказывал у нас решётки, ворота, навесы и перила.</p>
+
+    <div class="reviews-grid">
+      {% for review in reviews %}
+      <div class="review-card">
+        <div class="stars" aria-hidden="true">{{ review.star_display }}</div>
+        <p class="review-text">{{ review.text }}</p>
+        <div class="review-name">{{ review.name }}</div>
+      </div>
+      {% empty %}
+      <p class="reviews-empty">Отзывов пока нет — станьте первым!</p>
+      {% endfor %}
+    </div>
+
+    <form action="" method="post" class="review-form" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="form_type" value="review" />
+
+      {% if request.GET.review == "sent" %}
+      <div class="form-note" role="status" aria-live="polite">Спасибо! Ваш отзыв отправлен и появится на сайте после проверки.</div>
+      {% endif %}
+
+      {% if review_form.errors %}
+      <div class="form-note" role="status" aria-live="polite">Пожалуйста, заполните обязательные поля.</div>
+      {% endif %}
+
+      <div class="field">
+        <label for="review-name">Ваше имя*</label>
+        <input id="review-name" name="name" type="text" autocomplete="name" value="{{ review_form.name.value|default_if_none:'' }}" required />
+        <small class="error" aria-live="polite">{{ review_form.name.errors.0 }}</small>
+      </div>
+
+      <div class="field">
+        <label for="review-rating">Оценка</label>
+        <select id="review-rating" name="rating">
+          {% for value, label in review_form.fields.rating.choices %}
+          <option value="{{ value }}" {% if review_form.rating.value|default:5|stringformat:"s" == value|stringformat:"s" %}selected{% endif %}>{{ label }} из 5</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="review-text">Ваш отзыв*</label>
+        <textarea id="review-text" name="text" rows="4" placeholder="Расскажите, как прошёл заказ" required>{{ review_form.text.value|default_if_none:'' }}</textarea>
+        <small class="error" aria-live="polite">{{ review_form.text.errors.0 }}</small>
+      </div>
+
+      <button class="btn" type="submit" aria-label="Отправить отзыв">Оставить отзыв</button>
+    </form>
+  </div>
+</section>
+
 <!-- Catalog -->
- 
+
 <!-- Footer -->
 <footer class="site-footer" aria-labelledby="footer-title">
   <div class="container footer-grid">
@@ -192,10 +284,10 @@
     <nav class="ft-col" aria-label="Что мы делаем">
       <div class="ft-title">Что мы делаем</div>
       <ul class="ft-list">
-        <li><a href="#">Кухни на заказ</a></li>
-        <li><a href="#">Гардеробные</a></li>
-        <li><a href="#">Скрытые двери</a></li>
-        <li><a href="#">Комплектующие</a></li>
+        <li><a href="{% url 'catalog' %}#grilles">Решётки</a></li>
+        <li><a href="{% url 'catalog' %}#gates">Ворота</a></li>
+        <li><a href="{% url 'catalog' %}#canopies">Навесы</a></li>
+        <li><a href="{% url 'catalog' %}#railings">Перила</a></li>
       </ul>
     </nav>
 

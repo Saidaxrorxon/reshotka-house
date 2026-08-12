@@ -119,3 +119,27 @@ class ConsultationRequest(models.Model):
     class Meta:
         verbose_name = "Заявка на консультацию"
         verbose_name_plural = "Заявки на консультацию"
+
+
+class Review(models.Model):
+    RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]
+
+    name = models.CharField(max_length=100, verbose_name="Имя")
+    rating = models.PositiveSmallIntegerField(
+        choices=RATING_CHOICES, default=5, verbose_name="Оценка"
+    )
+    text = models.TextField(verbose_name="Текст отзыва")
+    is_approved = models.BooleanField(default=False, verbose_name="Одобрен")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата отправки")
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.name} — {self.rating}/5"
+
+    @property
+    def star_display(self):
+        return "★" * self.rating + "☆" * (5 - self.rating)
