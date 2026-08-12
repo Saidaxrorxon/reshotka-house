@@ -144,29 +144,6 @@
   </div>
 </section>
 
-   <div class="grid" id="portfolioGrid" style="margin-top: 20px;">
-      <!-- Примеры карточек (data-cat: kitchen / wardrobe / cabinet) -->
-
-
-
-
-            {% for item in items %}
-            <article class="card" data-cat="{{ item.category.slug }}">
-              <div class="media">
-                <img src="{{ item.image.url }}" alt="Проект {{ item.uid }}" loading="lazy" />
-                <div class="grad"></div>
-                <header class="meta">
-                  <div class="line">{{ item.uid }}</div>
-                </header>
-              </div>
-            </article>
-            {% endfor %}
-
-      
-    </div>
-  </div>
-</section>
-
 
 
 <!-- CTA -->

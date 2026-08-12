@@ -6,8 +6,6 @@ from .forms import ConsultationRequestForm, ReviewForm
 from .models import *
 
 def home(request):
-    categories = PortfolioCategory.objects.all().order_by("name")
-    items = PortfolioItem.objects.select_related("category").all()
     work_cards = WorkCard.objects.all()
     reviews = Review.objects.filter(is_approved=True)
 
@@ -27,8 +25,6 @@ def home(request):
                 return redirect(request.path)  # Перенаправляем обратно на главную
 
     return render(request, "index.html", {
-        "categories": categories,
-        "items": items,
         "work_cards": work_cards,
         "form": form,
         "review_form": review_form,

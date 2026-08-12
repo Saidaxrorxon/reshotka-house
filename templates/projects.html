@@ -169,6 +169,8 @@
 <button class="chip" data-cat="gates" role="tab" aria-selected="false">Ворота</button>
 <button class="chip" data-cat="canopies" role="tab" aria-selected="false">Навесы</button>
 <button class="chip" data-cat="railings" role="tab" aria-selected="false">Перила</button>
+<button class="chip" data-cat="fences" role="tab" aria-selected="false">Заборы</button>
+<button class="chip" data-cat="hangars" role="tab" aria-selected="false">Каркасные ангары</button>
       </div>
 
       <div class="filters-r">
@@ -323,7 +325,7 @@
       // Support deep links like /projects.html#grilles or #2025
       if(location.hash){
         const h = location.hash.replace('#','');
-        const cats = ['all','grilles','gates','canopies','railings'];
+        const cats = ['all','grilles','gates','canopies','railings','fences','hangars'];
         if(cats.includes(h)){
           const btn = chips.querySelector(`[data-cat="${h}"]`);
           if(btn){ btn.click(); }
