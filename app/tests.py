@@ -206,21 +206,11 @@ class ReviewModelTests(TestCase):
 class HomeViewTests(MediaRootTestCase):
     def setUp(self):
         self.client = Client()
-        self.work_card = WorkCard.objects.create(
-            category_slug="grilles",
-            image=tiny_png(),
-            title="Кованая решётка",
-            line_text="01 grilles",
-        )
 
     def test_get_returns_200_and_uses_index_template(self):
         response = self.client.get(reverse("home"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "index.html")
-
-    def test_get_context_contains_expected_objects(self):
-        response = self.client.get(reverse("home"))
-        self.assertEqual(list(response.context["work_cards"]), [self.work_card])
 
     def test_post_creates_consultation_request_and_redirects(self):
         response = self.client.post(

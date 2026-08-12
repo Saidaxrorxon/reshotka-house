@@ -113,28 +113,6 @@
       Изготавливаем на заказ: от классики до модерна. Замер и консультация, проект под ваш фасад, установка под ключ.
     </p>
   </div>
-
-
-
-<!-- Portfolio -->
-<section id="portfolio" class="portfolio" aria-labelledby="portfolio-title">
-  <div class="container">
-    <h2 id="portfolio-title" class="reveal" data-reveal>Наши работы</h2>
-    <div class="grid" id="portfolioGrid">
-      {% for work in work_cards %}
-      <article class="card" data-cat="{{ work.category_slug }}">
-        <div class="media">
-          <img src="{{ work.image.url }}" alt="{{ work.title }}" loading="lazy" />
-          <div class="grad"></div>
-          <header class="meta">
-            <div class="line">{{ work.line_text }}</div>
-            <h3>{{ work.title }}</h3>
-          </header>
-        </div>
-      </article>
-      {% endfor %}
-    </div>
-  </div>
 </section>
 
 
