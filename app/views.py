@@ -6,7 +6,6 @@ from .forms import ConsultationRequestForm, ReviewForm
 from .models import *
 
 def home(request):
-    work_cards = WorkCard.objects.all()
     reviews = Review.objects.filter(is_approved=True)
 
     form = ConsultationRequestForm()
@@ -25,7 +24,6 @@ def home(request):
                 return redirect(request.path)  # Перенаправляем обратно на главную
 
     return render(request, "index.html", {
-        "work_cards": work_cards,
         "form": form,
         "review_form": review_form,
         "reviews": reviews,
