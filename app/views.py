@@ -2,29 +2,37 @@
 from django.http import HttpResponse
 from django.shortcuts import render ,redirect
 from django.urls import reverse
+from .forms import ConsultationRequestForm, ReviewForm
 from .models import *
 
 def home(request):
     categories = PortfolioCategory.objects.all().order_by("name")
     items = PortfolioItem.objects.select_related("category").all()
     work_cards = WorkCard.objects.all()
+    reviews = Review.objects.filter(is_approved=True)
+
+    form = ConsultationRequestForm()
+    review_form = ReviewForm()
 
     if request.method == "POST":
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
-
-        ConsultationRequest.objects.create(
-            name=name,
-            phone=phone,
-            message=message
-        )
-        return redirect(request.path)  # Перенаправляем обратно на главную
+        if request.POST.get("form_type") == "review":
+            review_form = ReviewForm(request.POST)
+            if review_form.is_valid():
+                review_form.save()
+                return redirect(f"{request.path}?review=sent#reviews")
+        else:
+            form = ConsultationRequestForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect(request.path)  # Перенаправляем обратно на главную
 
     return render(request, "index.html", {
         "categories": categories,
         "items": items,
-        "work_cards": work_cards
+        "work_cards": work_cards,
+        "form": form,
+        "review_form": review_form,
+        "reviews": reviews,
     })
 
 def catalog(request):

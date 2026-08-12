@@ -5,6 +5,19 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Контакты — Reshetki House</title>
+  <meta name="description" content="Свяжитесь с Reshetki House — телефон, WhatsApp, Telegram, адрес и карта проезда. Поможем с замером, дизайном и расчётом стоимости." />
+
+  <link rel="icon" href="/static/assets/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/static/assets/apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Reshetki House" />
+  <meta property="og:title" content="Контакты — Reshetki House" />
+  <meta property="og:description" content="Телефон, WhatsApp, Telegram, адрес и карта проезда Reshetki House." />
+  <meta property="og:url" content="https://reshetki-house.uz/contact/" />
+  <meta property="og:image" content="https://reshetki-house.uz/static/assets/logo-reshetki-house.jpeg" />
+
   <meta name="color-scheme" content="light" />
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -222,10 +235,10 @@
     <nav class="ft-col" aria-label="Что мы делаем">
       <div class="ft-title">Что мы делаем</div>
       <ul class="ft-list">
-        <li><a href="#">Кухни на заказ</a></li>
-        <li><a href="#">Гардеробные</a></li>
-        <li><a href="#">Скрытые двери</a></li>
-        <li><a href="#">Комплектующие</a></li>
+        <li><a href="{% url 'catalog' %}#grilles">Решётки</a></li>
+        <li><a href="{% url 'catalog' %}#gates">Ворота</a></li>
+        <li><a href="{% url 'catalog' %}#canopies">Навесы</a></li>
+        <li><a href="{% url 'catalog' %}#railings">Перила</a></li>
       </ul>
     </nav>
 

@@ -6,6 +6,19 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Портфолио — Reshetki House</title>
+  <meta name="description" content="Портфолио реализованных проектов Reshetki House — решётки, ворота, навесы и перила из металла для частных домов и предприятий в Ташкенте." />
+
+  <link rel="icon" href="/static/assets/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/static/assets/apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Reshetki House" />
+  <meta property="og:title" content="Портфолио — Reshetki House" />
+  <meta property="og:description" content="Реализованные проекты: решётки, ворота, навесы и перила из металла в Ташкенте." />
+  <meta property="og:url" content="https://reshetki-house.uz/projects/" />
+  <meta property="og:image" content="https://reshetki-house.uz/static/assets/logo-reshetki-house.jpeg" />
+
   <meta name="color-scheme" content="light" />
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -221,10 +234,10 @@
     <nav class="ft-col" aria-label="Что мы делаем">
       <div class="ft-title">Что мы делаем</div>
       <ul class="ft-list">
-        <li><a href="#">Кухни на заказ</a></li>
-        <li><a href="#">Гардеробные</a></li>
-        <li><a href="#">Скрытые двери</a></li>
-        <li><a href="#">Комплектующие</a></li>
+        <li><a href="{% url 'catalog' %}#grilles">Решётки</a></li>
+        <li><a href="{% url 'catalog' %}#gates">Ворота</a></li>
+        <li><a href="{% url 'catalog' %}#canopies">Навесы</a></li>
+        <li><a href="{% url 'catalog' %}#railings">Перила</a></li>
       </ul>
     </nav>
 

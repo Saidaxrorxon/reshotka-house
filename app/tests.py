@@ -14,6 +14,7 @@ from .models import (
     ConsultationRequest,
     PortfolioCategory,
     PortfolioItem,
+    Review,
     WorkCard,
 )
 from . import views
@@ -167,6 +168,25 @@ class ConsultationRequestModelTests(TestCase):
         self.assertIsNotNone(request.created_at)
 
 
+class ReviewModelTests(TestCase):
+    def test_str_format(self):
+        review = Review.objects.create(name="Иван", rating=4, text="Отлично")
+        self.assertEqual(str(review), "Иван — 4/5")
+
+    def test_defaults_to_unapproved(self):
+        review = Review.objects.create(name="Иван", text="Отлично")
+        self.assertFalse(review.is_approved)
+
+    def test_default_ordering_is_newest_first(self):
+        older = Review.objects.create(name="Первый", text="А")
+        newer = Review.objects.create(name="Второй", text="Б")
+        self.assertEqual(list(Review.objects.all()), [newer, older])
+
+    def test_star_display(self):
+        review = Review.objects.create(name="Иван", rating=3, text="Норм")
+        self.assertEqual(review.star_display, "★★★☆☆")
+
+
 class HomeViewTests(MediaRootTestCase):
     def setUp(self):
         self.client = Client()
@@ -212,14 +232,59 @@ class HomeViewTests(MediaRootTestCase):
         self.assertEqual(created.phone, "+998901234567")
         self.assertEqual(created.message, "Хочу ворота")
 
-    def test_post_without_name_or_phone_raises_integrity_error(self):
-        # Documents current behavior: the view does not validate the
-        # submitted data before saving, so a POST missing "name"/"phone"
-        # crashes with an IntegrityError (a 500 in production) instead of
-        # being rejected gracefully. This is a known gap, not desired
-        # behavior.
-        with self.assertRaises(IntegrityError):
-            self.client.post(reverse("home"), {})
+    def test_post_without_name_or_phone_does_not_create_record(self):
+        response = self.client.post(reverse("home"), {})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(ConsultationRequest.objects.count(), 0)
+        self.assertTrue(response.context["form"].errors)
+
+    def test_post_without_name_or_phone_shows_field_errors(self):
+        response = self.client.post(reverse("home"), {})
+        self.assertContains(response, "Пожалуйста, укажите имя.")
+        self.assertContains(response, "Пожалуйста, укажите телефон.")
+
+    def test_post_with_whitespace_only_name_does_not_create_record(self):
+        response = self.client.post(
+            reverse("home"), {"name": "   ", "phone": "+998901234567"}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(ConsultationRequest.objects.count(), 0)
+
+    def test_context_only_contains_approved_reviews(self):
+        approved = Review.objects.create(
+            name="Иван", text="Отлично", is_approved=True
+        )
+        Review.objects.create(name="Скрытый", text="Не одобрен", is_approved=False)
+        response = self.client.get(reverse("home"))
+        self.assertEqual(list(response.context["reviews"]), [approved])
+
+    def test_post_review_creates_unapproved_review_and_redirects(self):
+        response = self.client.post(
+            reverse("home"),
+            {"form_type": "review", "name": "Иван", "rating": "4", "text": "Класс"},
+        )
+        self.assertRedirects(
+            response, f"{reverse('home')}?review=sent#reviews",
+            fetch_redirect_response=False,
+        )
+        self.assertEqual(Review.objects.count(), 1)
+        created = Review.objects.get()
+        self.assertEqual(created.name, "Иван")
+        self.assertEqual(created.rating, 4)
+        self.assertFalse(created.is_approved)
+
+    def test_post_review_without_name_or_text_does_not_create_record(self):
+        response = self.client.post(reverse("home"), {"form_type": "review"})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Review.objects.count(), 0)
+        self.assertTrue(response.context["review_form"].errors)
+
+    def test_post_review_does_not_affect_consultation_form(self):
+        self.client.post(
+            reverse("home"),
+            {"form_type": "review", "name": "Иван", "rating": "4", "text": "Класс"},
+        )
+        self.assertEqual(ConsultationRequest.objects.count(), 0)
 
 
 class CatalogViewTests(MediaRootTestCase):
@@ -309,6 +374,7 @@ class AdminSiteTests(MediaRootTestCase):
             WorkCard,
             Catalog_card,
             ConsultationRequest,
+            Review,
         ]
         for model in models:
             url = reverse(
