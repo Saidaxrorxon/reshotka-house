@@ -151,7 +151,7 @@ MEDIA_ROOT = BASE_DIR
 
 # Match Nginx's client_max_body_size (see deploy/nginx.conf) so large
 # admin photo uploads aren't rejected by Django either.
-DATA_UPLOAD_MAX_MEMORY_SIZE = 20 * 1024 * 1024
+DATA_UPLOAD_MAX_MEMORY_SIZE = 15 * 1024 * 1024
 
 # Trust the X-Forwarded-Proto header set by the Nginx reverse proxy (see
 # deploy/nginx.conf) so Django knows requests arriving via the proxy are
