@@ -156,7 +156,7 @@
     <div class="container">
       <h1>+998971991661</h1> 
       <h1>Наши работы: решётки, ворота, навесы, перила</h1>
-      <p>Реализованные изделия из металла: оконные и балконные решётки, кованые ворота, навесы и перила. Фильтруйте по типу, году, популярности или названию.</p>
+      <p>Реализованные изделия из металла: оконные и балконные решётки, кованые ворота, навесы и перила. Фильтруйте по типу.</p>
     </div>
   </section>
 
@@ -171,21 +171,6 @@
 <button class="chip" data-cat="railings" role="tab" aria-selected="false">Перила</button>
 <button class="chip" data-cat="fences" role="tab" aria-selected="false">Заборы</button>
 <button class="chip" data-cat="hangars" role="tab" aria-selected="false">Каркасные ангары</button>
-      </div>
-
-      <div class="filters-r">
-        <input class="search" type="search" id="pfSearch" placeholder="Поиск проекта…" aria-label="Поиск по портфолио" />
-        <select class="select" id="pfYear">
-          <option value="all">Год: все</option>
-          <option value="2025">2025</option>
-          <option value="2024">2024</option>
-          <option value="2023">2023</option>
-        </select>
-        <select class="select" id="pfSort">
-          <option value="pop">По популярности</option>
-          <option value="new">Сначала новые</option>
-          <option value="name">По названию</option>
-        </select>
       </div>
     </div>
   </section>
@@ -281,56 +266,34 @@
     }, {threshold:0.08});
     document.querySelectorAll('.card').forEach(el=> io.observe(el));
 
-    // Filtering / Search / Sort
+    // Filtering by category
     (function(){
       const grid = document.getElementById('pfGrid');
       const chips = document.getElementById('pfChips');
-      const search = document.getElementById('pfSearch');
-      const year = document.getElementById('pfYear');
-      const sort = document.getElementById('pfSort');
+      if(!grid || !chips) return;
       const items = Array.from(grid.querySelectorAll('.card'));
-      const state = {cat:'all', q:'', year:'all', sort:'pop'};
-      const norm = s => (s||'').toString().toLowerCase().trim();
+      let cat = 'all';
 
       function apply(){
-        const filtered = items.filter(it=>{
-          const cOk = state.cat==='all' || it.dataset.cat===state.cat;
-          const yOk = state.year==='all' || it.dataset.year===state.year;
-          const nOk = norm(it.dataset.name).includes(norm(state.q));
-          return cOk && yOk && nOk;
-        });
-        const sorted = filtered.sort((a,b)=>{
-          if(state.sort==='new') return (b.dataset.year|0)-(a.dataset.year|0);
-          if(state.sort==='name') return a.dataset.name.localeCompare(b.dataset.name,'ru');
-          return (a.dataset.pop|0)-(b.dataset.pop|0);
-        });
-        items.forEach(it=> it.style.display='none');
-        sorted.forEach(it=> it.style.display='');
+        items.forEach(it=> it.style.display = (cat==='all' || it.dataset.cat===cat) ? '' : 'none');
       }
 
-      if(chips){
-        chips.addEventListener('click', e=>{
-          const btn = e.target.closest('.chip'); if(!btn) return;
-          state.cat = btn.dataset.cat || 'all';
-          chips.querySelectorAll('.chip').forEach(c=>{c.classList.remove('active'); c.setAttribute('aria-selected','false');});
-          btn.classList.add('active'); btn.setAttribute('aria-selected','true');
-          apply();
-        });
-      }
-      if(search){ search.addEventListener('input', ()=>{ state.q = search.value; apply(); }); }
-      if(year){ year.addEventListener('change', ()=>{ state.year = year.value; apply(); }); }
-      if(sort){ sort.addEventListener('change', ()=>{ state.sort = sort.value; apply(); }); }
+      chips.addEventListener('click', e=>{
+        const btn = e.target.closest('.chip'); if(!btn) return;
+        cat = btn.dataset.cat || 'all';
+        chips.querySelectorAll('.chip').forEach(c=>{c.classList.remove('active'); c.setAttribute('aria-selected','false');});
+        btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+        apply();
+      });
       apply();
 
-      // Support deep links like /projects.html#grilles or #2025
+      // Support deep links like /projects/#grilles
       if(location.hash){
         const h = location.hash.replace('#','');
         const cats = ['all','grilles','gates','canopies','railings','fences','hangars'];
         if(cats.includes(h)){
           const btn = chips.querySelector(`[data-cat="${h}"]`);
           if(btn){ btn.click(); }
-        } else if(/^\d{4}$/.test(h)){
-          year.value = h; state.year = h; apply();
         }
       }
     })();
