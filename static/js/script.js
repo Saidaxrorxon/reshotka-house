@@ -207,67 +207,9 @@ document.querySelectorAll('#portfolioGrid .card').forEach(el=> {
   });
 })();
 
-// ====== Валидация и отправка формы (демо)
-(function ctaFormInit(){
-  const form = document.getElementById('ctaForm');
-  if(!form) return;
-  const name = form.querySelector('#name');
-  const phone = form.querySelector('#phone');
-  const agree = form.querySelector('#agree');
-  const note = form.querySelector('.form-note');
-
-  function setError(el, msg){
-    const err = el.closest('.field')?.querySelector('.error') || form.querySelector('.error:last-of-type');
-    if(err) err.textContent = msg || '';
-    el.setAttribute('aria-invalid', msg ? 'true' : 'false');
-  }
-
-  function validate(){
-    let ok = true;
-    // name
-    if(!name.value.trim()){
-      setError(name, 'Укажите имя');
-      ok = false;
-    } else setError(name, '');
-
-    // phone (+998 и ещё 9 цифр)
-    const d = phone.value.replace(/\D/g,'');
-    if(d.length !== 12 || !d.startsWith('998')){
-      setError(phone, 'Введите телефон в формате +998 (90) 123-45-67');
-      ok = false;
-    } else setError(phone, '');
-
-    // agree
-    if(!agree.checked){
-      const err = form.querySelectorAll('.error')[form.querySelectorAll('.error').length-1];
-      if(err) err.textContent = 'Нужно согласие на обработку данных';
-      ok = false;
-    } else {
-      const err = form.querySelectorAll('.error')[form.querySelectorAll('.error').length-1];
-      if(err) err.textContent = '';
-    }
-    return ok;
-  }
-
-  form.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    note.textContent = '';
-    if(!validate()) return;
-
-    // имитация отправки
-    form.classList.add('sending');
-    note.textContent = 'Отправляем...';
-    try{
-      await new Promise(r=> setTimeout(r, 800)); // тут вставишь свой fetch к бэкенду
-      note.textContent = 'Спасибо! Мы свяжемся с вами в ближайшее время.';
-      form.reset();
-    }catch(err){
-      note.textContent = 'Ошибка отправки. Попробуйте позже.';
-    }finally{
-      form.classList.remove('sending');
-    }
-  });
-})();
+// Отправка формы заявки идёт обычным POST на сервер (Django views.home) -
+// на клиенте оставлена только маска телефона (phoneMask выше), без
+// перехвата submit, чтобы данные реально доходили до бэкенда.
 
 // Подключаем карточки каталога к reveal (если есть io из lead)
 (function hookCatalogReveal(){
