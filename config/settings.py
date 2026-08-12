@@ -149,6 +149,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR
 
+# Match Nginx's client_max_body_size (see deploy/nginx.conf) so large
+# admin photo uploads aren't rejected by Django either.
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20 * 1024 * 1024
+
 # Trust the X-Forwarded-Proto header set by the Nginx reverse proxy (see
 # deploy/nginx.conf) so Django knows requests arriving via the proxy are
 # HTTPS - required for CSRF/session cookies to work once *_COOKIE_SECURE
