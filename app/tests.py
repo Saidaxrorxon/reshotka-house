@@ -54,24 +54,40 @@ class MediaRootTestCase(TestCase):
 
 class PortfolioCategoryModelTests(MediaRootTestCase):
     def test_str_returns_name(self):
-        category = PortfolioCategory.objects.create(name="Ворота", slug="gates")
-        self.assertEqual(str(category), "Ворота")
+        category = PortfolioCategory.objects.create(name="Тестовая", slug="test-cat")
+        self.assertEqual(str(category), "Тестовая")
 
     def test_duplicate_name_raises_integrity_error(self):
-        PortfolioCategory.objects.create(name="Ворота", slug="gates")
+        PortfolioCategory.objects.create(name="Тестовая", slug="test-cat")
         with self.assertRaises(IntegrityError):
-            PortfolioCategory.objects.create(name="Ворота", slug="gates-2")
+            PortfolioCategory.objects.create(name="Тестовая", slug="test-cat-2")
 
     def test_duplicate_slug_raises_integrity_error(self):
-        PortfolioCategory.objects.create(name="Ворота", slug="gates")
+        PortfolioCategory.objects.create(name="Тестовая", slug="test-cat")
         with self.assertRaises(IntegrityError):
-            PortfolioCategory.objects.create(name="Другое", slug="gates")
+            PortfolioCategory.objects.create(name="Другое", slug="test-cat")
+
+    def test_migration_seeds_the_six_real_categories(self):
+        expected = {
+            "Решётки": "grilles",
+            "Перила": "railings",
+            "Навесы": "canopies",
+            "Ворота": "gates",
+            "Заборы": "fences",
+            "Каркасные ангары": "hangars",
+        }
+        actual = dict(
+            PortfolioCategory.objects.filter(name__in=expected).values_list(
+                "name", "slug"
+            )
+        )
+        self.assertEqual(actual, expected)
 
 
 class PortfolioItemModelTests(MediaRootTestCase):
     def setUp(self):
         self.category = PortfolioCategory.objects.create(
-            name="Ворота", slug="gates"
+            name="Тестовая", slug="test-cat"
         )
 
     def test_first_item_gets_uid_one(self):
@@ -190,15 +206,6 @@ class ReviewModelTests(TestCase):
 class HomeViewTests(MediaRootTestCase):
     def setUp(self):
         self.client = Client()
-        self.category_b = PortfolioCategory.objects.create(
-            name="Ящики", slug="boxes"
-        )
-        self.category_a = PortfolioCategory.objects.create(
-            name="Автоворота", slug="auto-gates"
-        )
-        self.item = PortfolioItem.objects.create(
-            category=self.category_a, image=tiny_png()
-        )
         self.work_card = WorkCard.objects.create(
             category_slug="grilles",
             image=tiny_png(),
@@ -213,11 +220,6 @@ class HomeViewTests(MediaRootTestCase):
 
     def test_get_context_contains_expected_objects(self):
         response = self.client.get(reverse("home"))
-        self.assertEqual(
-            list(response.context["categories"]),
-            [self.category_a, self.category_b],  # ordered by name
-        )
-        self.assertEqual(list(response.context["items"]), [self.item])
         self.assertEqual(list(response.context["work_cards"]), [self.work_card])
 
     def test_post_creates_consultation_request_and_redirects(self):
@@ -308,10 +310,12 @@ class ProjectsViewTests(MediaRootTestCase):
         self.assertTemplateUsed(response, "projects.html")
 
     def test_context_contains_categories_and_items(self):
-        category = PortfolioCategory.objects.create(name="Ворота", slug="gates")
+        # The 6 real categories are seeded by a data migration - reuse one
+        # rather than creating a duplicate.
+        category = PortfolioCategory.objects.get(slug="gates")
         item = PortfolioItem.objects.create(category=category, image=tiny_png())
         response = self.client.get(reverse("projects"))
-        self.assertEqual(list(response.context["categories"]), [category])
+        self.assertIn(category, response.context["categories"])
         self.assertEqual(list(response.context["items"]), [item])
 
 

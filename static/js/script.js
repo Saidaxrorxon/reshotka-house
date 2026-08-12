@@ -47,7 +47,7 @@ function setCopy(i){
     <h1 class="step-in delay-1">${slidesData[i].title}</h1>
     <p class="step-in delay-2">${slidesData[i].text}</p>
     <div class="hero-cta step-in delay-3">
-      <a class="btn" href="/catalog/">Смотреть</a>
+      <a class="btn" href="/projects/">Смотреть</a>
     </div>`;
 }
 
