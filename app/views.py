@@ -29,14 +29,6 @@ def home(request):
         "reviews": reviews,
     })
 
-def catalog(request):
-    catalog_card = Catalog_card.objects.all()
-    return render(request, "catalog.html", {
-        "catalog_card": catalog_card
-    })
-    
-    
-    
 def projects(request):
     categories = PortfolioCategory.objects.all().order_by("name")
     items = PortfolioItem.objects.select_related("category").all()
@@ -64,7 +56,7 @@ def robots_txt(request):
 def sitemap_xml(request):
     urls = [
         request.build_absolute_uri(reverse(name))
-        for name in ("home", "catalog", "projects", "contact")
+        for name in ("home", "projects", "contact")
     ]
     entries = "".join(f"<url><loc>{url}</loc></url>" for url in urls)
     xml = (

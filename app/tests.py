@@ -279,20 +279,6 @@ class HomeViewTests(MediaRootTestCase):
         self.assertEqual(ConsultationRequest.objects.count(), 0)
 
 
-class CatalogViewTests(MediaRootTestCase):
-    def test_get_returns_200_and_uses_catalog_template(self):
-        response = self.client.get(reverse("catalog"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "catalog.html")
-
-    def test_context_contains_catalog_cards(self):
-        card = Catalog_card.objects.create(
-            image=tiny_png(), category="gates", price=500
-        )
-        response = self.client.get(reverse("catalog"))
-        self.assertEqual(list(response.context["catalog_card"]), [card])
-
-
 class ProjectsViewTests(MediaRootTestCase):
     def test_get_returns_200_and_uses_projects_template(self):
         response = self.client.get(reverse("projects"))
@@ -328,16 +314,13 @@ class SeoViewTests(TestCase):
         response = self.client.get(reverse("sitemap_xml"))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Content-Type"], "application/xml")
-        for name in ("home", "catalog", "projects", "contact"):
+        for name in ("home", "projects", "contact"):
             self.assertIn(reverse(name).encode(), response.content)
 
 
 class UrlResolutionTests(TestCase):
     def test_home_resolves_to_home_view(self):
         self.assertIs(resolve(reverse("home")).func, views.home)
-
-    def test_catalog_resolves_to_catalog_view(self):
-        self.assertIs(resolve(reverse("catalog")).func, views.catalog)
 
     def test_contact_resolves_to_contact_view(self):
         self.assertIs(resolve(reverse("contact")).func, views.contact)
