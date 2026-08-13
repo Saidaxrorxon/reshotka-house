@@ -121,7 +121,6 @@
       </div>
       <div class="nav-right" style="display: flex; align-items: center; margin-left: auto;">
         <nav class="menu" aria-label="Главное меню">
-          <a href="{% url 'catalog' %}">Услуги</a>
           <a href="{% url 'projects' %}">Портфолио</a>
           <a href="{% url 'contact' %}">Контакты</a>
         </nav>
@@ -147,7 +146,6 @@
   <nav id="mobileNav" class="mobile-nav" aria-label="Мобильное меню">
     <div class="mobile-nav__inner container">
       <ul class="mobile-nav__list">
-        <li><a href="{% url 'catalog' %}">Услуги</a></li>
         <li><a href="{% url 'projects' %}">Портфолио</a></li>
         <li><a href="{% url 'contact' %}">Контакты</a></li>
 
@@ -235,17 +233,16 @@
     <nav class="ft-col" aria-label="Что мы делаем">
       <div class="ft-title">Что мы делаем</div>
       <ul class="ft-list">
-        <li><a href="{% url 'catalog' %}#grilles">Решётки</a></li>
-        <li><a href="{% url 'catalog' %}#gates">Ворота</a></li>
-        <li><a href="{% url 'catalog' %}#canopies">Навесы</a></li>
-        <li><a href="{% url 'catalog' %}#railings">Перила</a></li>
+        <li><a href="{% url 'projects' %}#grilles">Решётки</a></li>
+        <li><a href="{% url 'projects' %}#gates">Ворота</a></li>
+        <li><a href="{% url 'projects' %}#canopies">Навесы</a></li>
+        <li><a href="{% url 'projects' %}#railings">Перила</a></li>
       </ul>
     </nav>
 
     <nav class="ft-col" aria-label="Полезные ссылки">
       <div class="ft-title">Полезные ссылки</div>
       <ul class="ft-list">
-        <li><a href="{% url 'catalog' %}">Услуги</a></li>
         <li><a href="{% url 'projects' %}">Портфолио</a></li>
         <li><a href="{% url 'contact' %}">Контакты</a></li>
       </ul>
