@@ -28,7 +28,7 @@ slidesData.forEach((s, i) => {
 function setCopy(i){
   if (slidesData.length === 0) {
     heroCopy.innerHTML = `
-      <h1 class="step-in delay-1">Кованые решётки, ворота, навесы и перила</h1>
+      <h2 class="step-in delay-1">Кованые решётки, ворота, навесы и перила</h2>
       <p class="step-in delay-2">Изготовление и монтаж металлоконструкций в Ташкенте под ключ.</p>
       <div class="hero-cta step-in delay-3"><a class="btn" href="/projects/">Смотреть</a></div>`;
     return;
@@ -37,7 +37,7 @@ function setCopy(i){
   const current = String(i+1).padStart(2,'0');
   heroCopy.innerHTML = `
     <div class="kicker step-in">${current} / ${total}</div>
-    <h1 class="step-in delay-1">${slidesData[i].title}</h1>
+    <h2 class="step-in delay-1">${slidesData[i].title}</h2>
     <p class="step-in delay-2">${slidesData[i].text}</p>
     <div class="hero-cta step-in delay-3">
       <a class="btn" href="/projects/">Смотреть</a>
