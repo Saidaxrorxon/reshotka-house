@@ -5,8 +5,27 @@ from django.urls import reverse
 from .forms import ConsultationRequestForm, ReviewForm
 from .models import *
 
+# Short blurb shown in the hero slider for each portfolio category.
+CATEGORY_HERO_TEXT = {
+    "grilles": "Производим металлические решётки, заборы и ограждения любой сложности для частных домов, офисов и предприятий в Ташкенте.",
+    "gates": "Надёжные металлические ворота и калитки под заказ — современный дизайн, качественная сварка и установка под ключ.",
+    "canopies": "Изготавливаем прочные и стильные навесы в Ташкенте — для дома, двора, парковки и коммерческих объектов.",
+    "railings": "Кованые перила и ограждения — надёжность и эстетика для лестниц, балконов и террас.",
+    "fences": "Заборы из металла любой сложности — прочные, стильные, с установкой под ключ.",
+    "hangars": "Каркасные ангары — быстровозводимые металлоконструкции под ключ для складов и производств.",
+}
+
+
 def home(request):
     reviews = Review.objects.filter(is_approved=True)
+    hero_slides = [
+        {
+            "title": item.category.name,
+            "text": CATEGORY_HERO_TEXT.get(item.category.slug, ""),
+            "image": item.image.url,
+        }
+        for item in PortfolioItem.objects.select_related("category").order_by("-uid")[:3]
+    ]
 
     form = ConsultationRequestForm()
     review_form = ReviewForm()
@@ -27,6 +46,7 @@ def home(request):
         "form": form,
         "review_form": review_form,
         "reviews": reviews,
+        "hero_slides": hero_slides,
     })
 
 def projects(request):

@@ -212,6 +212,20 @@ class HomeViewTests(MediaRootTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "index.html")
 
+    def test_hero_slides_built_from_latest_portfolio_items(self):
+        category = PortfolioCategory.objects.get(slug="grilles")
+        item = PortfolioItem.objects.create(category=category, image=tiny_png())
+        response = self.client.get(reverse("home"))
+        slides = response.context["hero_slides"]
+        self.assertEqual(len(slides), 1)
+        self.assertEqual(slides[0]["title"], "Решётки")
+        self.assertEqual(slides[0]["image"], item.image.url)
+        self.assertIn(b'"hero-slides-data"', response.content)
+
+    def test_hero_slides_empty_when_no_portfolio_items(self):
+        response = self.client.get(reverse("home"))
+        self.assertEqual(response.context["hero_slides"], [])
+
     def test_post_creates_consultation_request_and_redirects(self):
         response = self.client.post(
             reverse("home"),

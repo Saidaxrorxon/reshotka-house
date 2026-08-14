@@ -247,10 +247,9 @@
     <div class="ft-col">
       <div class="ft-title">Контакты</div>
       <ul class="ft-list">
-
-        <li><a href="{% url 'projects' %}">Портфолио</a></li>
-        <li><a href="{% url 'contact' %}">Контакты</a></li>
-
+        <li>Тел: +998 (97) 199-16-61</li>
+        <li>Email: info@reshetki-house.uz</li>
+        <li>Адрес: Ташкент, Узбекистан</li>
       </ul>
     </div>
   </div>
@@ -259,6 +258,7 @@
   </div>
 </footer>
 
+  {{ hero_slides|json_script:"hero-slides-data" }}
   <script src="/static/js/script.js" defer></script>
 </body>
 </html>

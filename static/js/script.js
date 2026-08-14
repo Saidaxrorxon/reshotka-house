@@ -1,20 +1,6 @@
-const slidesData = [
-  {
-    title: "Навесы на заказ",
-    text: "Изготавливаем прочные и стильные навесы в Ташкенте — для дома, двора, парковки и коммерческих объектов.",
-    image: "https://news-bash.ru/wp-content/uploads/2025/11/post_11_11_2025_05_17_43_216.jpg"
-  },
-  {
-    title: "Ворота и калитки",
-    text: "Надёжные металлические ворота и калитки под заказ — современный дизайн, качественная сварка и установка под ключ.",
-    image: "https://dpoprof.ru/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2025/05/rezka-metalla-s-plazmennym-oborudovaniem-na-zavode-1024x683.jpg.webp"
-  },
-  {
-    title: "Решётки и ограждения",
-    text: "Производим металлические решётки, заборы и ограждения любой сложности для частных домов, офисов и предприятий в Ташкенте.",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4feEWtDFWxGRIYPcj6NA7wjM0XyZeY-fuRQ&s"
-  }
-];
+// Реальные фото портфолио (последние загруженные), отдаются сервером
+// через <script id="hero-slides-data" type="application/json"> - см. index.html.
+const slidesData = JSON.parse(document.getElementById('hero-slides-data')?.textContent || '[]');
 
 const slidesRoot = document.getElementById('slides');
 const dotsRoot = document.getElementById('dots');
@@ -40,6 +26,13 @@ slidesData.forEach((s, i) => {
 });
 
 function setCopy(i){
+  if (slidesData.length === 0) {
+    heroCopy.innerHTML = `
+      <h1 class="step-in delay-1">Кованые решётки, ворота, навесы и перила</h1>
+      <p class="step-in delay-2">Изготовление и монтаж металлоконструкций в Ташкенте под ключ.</p>
+      <div class="hero-cta step-in delay-3"><a class="btn" href="/projects/">Смотреть</a></div>`;
+    return;
+  }
   const total = String(slidesData.length).padStart(2,'0');
   const current = String(i+1).padStart(2,'0');
   heroCopy.innerHTML = `
@@ -58,7 +51,7 @@ const dotEls = [...document.querySelectorAll('.dot')];
 setCopy(0);
 
 function goTo(i, user=false){
-  if(blocked || i === index) return;
+  if(slideEls.length === 0 || blocked || i === index) return;
   blocked = true;
   slideEls[index].classList.remove('is-active');
   dotEls[index].classList.remove('is-active');
