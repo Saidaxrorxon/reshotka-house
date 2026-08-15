@@ -1,5 +1,6 @@
-// Реальные фото портфолио (последние загруженные), отдаются сервером
-// через <script id="hero-slides-data" type="application/json"> - см. index.html.
+// Данные слайдов (заголовок/текст по последним категориям портфолио + фото)
+// отдаются сервером через <script id="hero-slides-data" type="application/json">
+// - см. index.html.
 const slidesData = JSON.parse(document.getElementById('hero-slides-data')?.textContent || '[]');
 
 const slidesRoot = document.getElementById('slides');
