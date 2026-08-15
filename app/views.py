@@ -18,14 +18,14 @@ CATEGORY_HERO_TEXT = {
 # Presentable stock photos for the hero slider (Pexels, free for commercial
 # use, no attribution required) — used instead of the raw uploaded portfolio
 # photos, which are real project shots but not always camera-ready for the
-# homepage hero.
+# homepage hero. Welder-at-work shots, to match "изготовление металлоконструкций".
 CATEGORY_HERO_IMAGES = {
-    "grilles": "https://images.pexels.com/photos/5380284/pexels-photo-5380284.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    "gates": "https://images.pexels.com/photos/34049512/pexels-photo-34049512.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    "canopies": "https://images.pexels.com/photos/6170743/pexels-photo-6170743.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    "railings": "https://images.pexels.com/photos/34968671/pexels-photo-34968671.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    "fences": "https://images.pexels.com/photos/7326717/pexels-photo-7326717.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    "hangars": "https://images.pexels.com/photos/28990152/pexels-photo-28990152.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "grilles": "https://images.pexels.com/photos/29976478/pexels-photo-29976478.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "gates": "https://images.pexels.com/photos/2760343/pexels-photo-2760343.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "canopies": "https://images.pexels.com/photos/1098402/pexels-photo-1098402.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "railings": "https://images.pexels.com/photos/29976478/pexels-photo-29976478.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "fences": "https://images.pexels.com/photos/2760343/pexels-photo-2760343.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "hangars": "https://images.pexels.com/photos/1098402/pexels-photo-1098402.jpeg?auto=compress&cs=tinysrgb&w=1600",
 }
 
 
