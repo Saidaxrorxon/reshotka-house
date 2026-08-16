@@ -5,7 +5,23 @@ from django.urls import reverse
 from .forms import ConsultationRequestForm, ReviewForm
 from .models import *
 
-# Short blurb shown in the hero slider for each portfolio category.
+# Only these 6 core service categories show up in the homepage hero slider —
+# anything else added in the admin (e.g. an ad-hoc "Двери" category) still
+# shows up on /projects/ but doesn't take over the homepage.
+HERO_CATEGORY_SLUGS = ["grilles", "gates", "canopies", "railings", "fences", "hangars"]
+
+# Headline shown in the hero slider for each category (a phrase, not just the
+# bare category name).
+CATEGORY_HERO_TITLE = {
+    "grilles": "Изготавливаем кованые решётки",
+    "gates": "Изготавливаем прочные ворота",
+    "canopies": "Строим стильные навесы",
+    "railings": "Куём перила и лестницы",
+    "fences": "Устанавливаем заборы под ключ",
+    "hangars": "Возводим каркасные ангары",
+}
+
+# Short blurb shown under the headline for each category.
 CATEGORY_HERO_TEXT = {
     "grilles": "Производим металлические решётки, заборы и ограждения любой сложности для частных домов, офисов и предприятий в Ташкенте.",
     "gates": "Надёжные металлические ворота и калитки под заказ — современный дизайн, качественная сварка и установка под ключ.",
@@ -19,14 +35,13 @@ def home(request):
     reviews = Review.objects.filter(is_approved=True)
     hero_slides = [
         {
-            "title": item.category.name,
-            "text": CATEGORY_HERO_TEXT.get(
-                item.category.slug,
-                f"{item.category.name} на заказ в Ташкенте — качество и гарантия.",
-            ),
+            "title": CATEGORY_HERO_TITLE.get(item.category.slug, item.category.name),
+            "text": CATEGORY_HERO_TEXT.get(item.category.slug, ""),
             "image": item.image.url,
         }
-        for item in PortfolioItem.objects.select_related("category").order_by("-uid")[:3]
+        for item in PortfolioItem.objects.filter(category__slug__in=HERO_CATEGORY_SLUGS)
+        .select_related("category")
+        .order_by("-uid")[:3]
     ]
 
     form = ConsultationRequestForm()

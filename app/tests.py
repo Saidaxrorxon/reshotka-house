@@ -218,11 +218,17 @@ class HomeViewTests(MediaRootTestCase):
         response = self.client.get(reverse("home"))
         slides = response.context["hero_slides"]
         self.assertEqual(len(slides), 1)
-        self.assertEqual(slides[0]["title"], "Решётки")
+        self.assertEqual(slides[0]["title"], views.CATEGORY_HERO_TITLE["grilles"])
         self.assertEqual(slides[0]["image"], item.image.url)
         self.assertIn(b'"hero-slides-data"', response.content)
 
     def test_hero_slides_empty_when_no_portfolio_items(self):
+        response = self.client.get(reverse("home"))
+        self.assertEqual(response.context["hero_slides"], [])
+
+    def test_hero_slides_exclude_non_core_categories(self):
+        extra = PortfolioCategory.objects.create(name="Двери", slug="doors")
+        PortfolioItem.objects.create(category=extra, image=tiny_png())
         response = self.client.get(reverse("home"))
         self.assertEqual(response.context["hero_slides"], [])
 
