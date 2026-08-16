@@ -219,7 +219,7 @@ class HomeViewTests(MediaRootTestCase):
         slides = response.context["hero_slides"]
         self.assertEqual(len(slides), 1)
         self.assertEqual(slides[0]["title"], "Решётки")
-        self.assertEqual(slides[0]["image"], views.CATEGORY_HERO_IMAGES["grilles"])
+        self.assertEqual(slides[0]["image"], item.image.url)
         self.assertIn(b'"hero-slides-data"', response.content)
 
     def test_hero_slides_empty_when_no_portfolio_items(self):
