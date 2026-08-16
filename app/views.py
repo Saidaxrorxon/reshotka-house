@@ -15,27 +15,16 @@ CATEGORY_HERO_TEXT = {
     "hangars": "Каркасные ангары — быстровозводимые металлоконструкции под ключ для складов и производств.",
 }
 
-# Presentable stock photos for the hero slider (Pexels, free for commercial
-# use, no attribution required) — used instead of the raw uploaded portfolio
-# photos, which are real project shots but not always camera-ready for the
-# homepage hero. Welder-at-work shots, to match "изготовление металлоконструкций".
-CATEGORY_HERO_IMAGES = {
-    "grilles": "https://images.pexels.com/photos/29976478/pexels-photo-29976478.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    "gates": "https://images.pexels.com/photos/2760343/pexels-photo-2760343.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    "canopies": "https://images.pexels.com/photos/1098402/pexels-photo-1098402.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    "railings": "https://images.pexels.com/photos/29976478/pexels-photo-29976478.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    "fences": "https://images.pexels.com/photos/2760343/pexels-photo-2760343.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    "hangars": "https://images.pexels.com/photos/1098402/pexels-photo-1098402.jpeg?auto=compress&cs=tinysrgb&w=1600",
-}
-
-
 def home(request):
     reviews = Review.objects.filter(is_approved=True)
     hero_slides = [
         {
             "title": item.category.name,
-            "text": CATEGORY_HERO_TEXT.get(item.category.slug, ""),
-            "image": CATEGORY_HERO_IMAGES.get(item.category.slug, item.image.url),
+            "text": CATEGORY_HERO_TEXT.get(
+                item.category.slug,
+                f"{item.category.name} на заказ в Ташкенте — качество и гарантия.",
+            ),
+            "image": item.image.url,
         }
         for item in PortfolioItem.objects.select_related("category").order_by("-uid")[:3]
     ]
