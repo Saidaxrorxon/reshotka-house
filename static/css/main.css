@@ -1045,3 +1045,221 @@ h3 {
           .burger { display: none; }
           .header-actions { display: none; }
         }
+
+/* ========================================================================
+   Design refresh — premium polish (same dark/gold style, richer detailing)
+   ======================================================================== */
+
+/* Eyebrow label above headings */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 .7rem;
+}
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 26px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+/* Thin gradient divider used between sections instead of flat borders */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,.35), transparent);
+  border: 0;
+  margin: 0;
+}
+
+body.theme-gold h1, body.theme-gold h2, body.theme-gold h3 {
+  text-wrap: balance;
+}
+
+/* ---- Buttons: premium gradient + lift ---- */
+body.theme-gold .btn {
+  background: linear-gradient(135deg, #ecd27f, var(--gold) 45%, var(--gold-2));
+  border-color: transparent;
+  color: #1a1400;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(212,175,55,.22), inset 0 1px 0 rgba(255,255,255,.35);
+  transition: transform .25s ease, box-shadow .25s ease, opacity .25s ease;
+}
+body.theme-gold .btn:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(212,175,55,.32), inset 0 1px 0 rgba(255,255,255,.4);
+}
+body.theme-gold .btn:active { transform: translateY(0); }
+body.theme-gold .btn.outline {
+  background: transparent;
+  color: var(--gold);
+  border: 1.5px solid var(--gold);
+  box-shadow: none;
+}
+body.theme-gold .btn.outline:hover {
+  background: rgba(212,175,55,.12);
+  color: #fff;
+  box-shadow: none;
+}
+
+/* ---- Chips ---- */
+body.theme-gold .chip {
+  transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+body.theme-gold .chip:hover { border-color: rgba(212,175,55,.5); }
+body.theme-gold .chip.active { box-shadow: 0 8px 18px rgba(212,175,55,.25); }
+
+/* ---- Hero: ambient depth even without a photo ---- */
+body.theme-gold .hero {
+  background:
+    radial-gradient(1000px 560px at 15% 10%, rgba(212,175,55,.10), transparent 60%),
+    radial-gradient(900px 520px at 85% 90%, rgba(212,175,55,.06), transparent 60%),
+    #0b0b0b;
+}
+body.theme-gold .hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  box-shadow: inset 0 -140px 140px -100px rgba(0,0,0,.7);
+}
+body.theme-gold .kicker { color: var(--gold); font-weight: 700; }
+
+/* ---- Premium card treatment: reviews, forms, info boxes ---- */
+body.theme-gold .review-card,
+body.theme-gold .cta-form,
+body.theme-gold .review-form,
+body.theme-gold .info-box,
+body.theme-gold .contacts-list,
+body.theme-gold .form {
+  position: relative;
+  background: linear-gradient(180deg, #151515, #0f0f0f);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 20px 44px rgba(0,0,0,.4);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+body.theme-gold .review-card::before,
+body.theme-gold .info-box::before,
+body.theme-gold .cta-form::before,
+body.theme-gold .review-form::before,
+body.theme-gold .contacts-list::before,
+body.theme-gold .form::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: .75;
+}
+body.theme-gold .review-card {
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+body.theme-gold .review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 56px rgba(0,0,0,.5);
+}
+body.theme-gold .info-box {
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+body.theme-gold .info-box:hover {
+  transform: translateY(-3px);
+  border-color: rgba(212,175,55,.35);
+}
+
+/* Reviews empty-state, styled as an inviting card instead of plain text */
+.reviews-empty {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: 22px 20px;
+  border: 1px dashed rgba(212,175,55,.4);
+  border-radius: var(--radius);
+  background: rgba(212,175,55,.04);
+}
+.reviews-empty::before {
+  content: '★';
+  color: var(--gold);
+  font-size: 1.1rem;
+}
+
+/* ---- Portfolio / project cards ---- */
+body.theme-gold .card {
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  box-shadow: 0 14px 30px rgba(0,0,0,.3);
+}
+body.theme-gold .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 44px rgba(0,0,0,.45);
+  border-color: rgba(212,175,55,.4);
+}
+
+/* ---- Footer: accent top divider + icon list ---- */
+body.theme-gold .site-footer {
+  position: relative;
+  background: linear-gradient(180deg, #0b0b0b, #070707);
+}
+body.theme-gold .site-footer::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,.5), transparent);
+}
+body.theme-gold .ft-title {
+  position: relative;
+  padding-bottom: 8px;
+}
+body.theme-gold .ft-title::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 30px;
+  height: 2px;
+  background: var(--gold);
+}
+.ft-list a { transition: opacity .2s ease, padding-left .2s ease; }
+body.theme-gold .ft-list a:hover { color: var(--gold); opacity: 1; }
+
+.ft-contact { position: relative; padding-left: 26px; }
+.ft-contact::before {
+  content: '';
+  position: absolute;
+  left: 0; top: .15em;
+  width: 16px; height: 16px;
+  background: var(--gold);
+  -webkit-mask: var(--ico) no-repeat center / contain;
+  mask: var(--ico) no-repeat center / contain;
+}
+.ft-contact--phone { --ico: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 16.92v2.08a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.1 5.18 2 2 0 0 1 4.1 3h2.08a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 10.9a16 16 0 0 0 6 6l1.27-1.24a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z'/></svg>"); }
+.ft-contact--mail { --ico: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='4' width='20' height='16' rx='2'/><path d='m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'/></svg>"); }
+.ft-contact--addr { --ico: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z'/><circle cx='12' cy='10' r='3'/></svg>"); }
+
+body.theme-gold .ft-bottom { position: relative; }
+
+/* ---- Burger: match the dark header instead of a plain white square ---- */
+body.theme-gold .burger { background: #141414; border-color: rgba(255,255,255,.14); }
+body.theme-gold .burger:hover { border-color: rgba(212,175,55,.5); }
+body.theme-gold .burger-inner,
+body.theme-gold .burger-inner::before,
+body.theme-gold .burger-inner::after { background: #f2f2f2; }
+
+/* ---- Mobile dropdown nav: subtle gold accent on hover ---- */
+body.theme-gold .mobile-nav__list a { border-left: 2px solid transparent; transition: border-color .2s ease, background .2s ease, color .2s ease, padding-left .2s ease; }
+body.theme-gold .mobile-nav__list a:hover { border-left-color: var(--gold); padding-left: 20px; }
+
+/* ---- Contact page: map + triplet polish ---- */
+.map .box, body.theme-gold .map .box {
+  box-shadow: 0 20px 44px rgba(0,0,0,.4);
+  border-color: rgba(255,255,255,.08);
+}
+.citem .name { color: var(--gold); text-transform: uppercase; font-size: .78rem; letter-spacing: .08em; }
+.citem .value { font-size: 1.05rem; }
